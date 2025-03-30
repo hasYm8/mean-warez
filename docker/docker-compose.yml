@@ -1,0 +1,30 @@
+services:
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    networks:
+      - mean_net
+
+  mongo-express:
+    container_name: mongo-express
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin
+      ME_CONFIG_MONGODB_URL: mongodb://admin:admin@mongo:27017/
+      ME_CONFIG_BASICAUTH: false
+    networks:
+      - mean_net
+
+networks:
+  mean_net:
+    driver: bridge
