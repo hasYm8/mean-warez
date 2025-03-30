@@ -10,6 +10,8 @@ Az admin kezeli az oldal struktúráját, hozhat létre és módosíthat kategó
 A feltöltő szerepkörbe tartozó felhasználók hozzáférhetnek a feltöltési szekcióhoz, ahol megoszthatnak tartalmakat a weboldalon belül. Minden feltöltéshez meg kell adniuk a tartalom címét, leírását, és kategorizálniuk kell azt.
 A felhasználók böngészhetnek a különböző kategóriák között, letölthetik a kívánt tartalmakat, és hozzászólásokat írhatnak az egyes tartalmakhoz. A felhasználóknak lehetőségük van értékelni a tartalmakat, így segítve másokat a minőségi tartalmak kiválasztásában.
 
+https://docs.google.com/document/d/1PDY0jedRbfdsNSUEc4WcMX4SsJa1M2o7niCWyoTGQ7U/edit?tab=t.0
+
 ## Features
 
 - **Single Page Application**: Fast, dynamic user interface built with Angular
