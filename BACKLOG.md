@@ -1,5 +1,5 @@
 # Application Backlog
-> **Version:** 1.0.0
+> **Version:** 1.0.1
 
 This document outlines the features, improvements, and bug fixes planned for the Warez MEAN stack application. Items are generally prioritized, but this is a living document and priorities may shift.
 
@@ -8,6 +8,7 @@ This document outlines the features, improvements, and bug fixes planned for the
 ### High Priority
 
 * [ ] **[Feature]** Create Dockerfiles; create dev and prod compose profiles; fix env variables
+* [ ] **[Feature]** Use nginx instead of angular's development server
 * [ ] **[Feature]** Registration / Login (with session)
 * [ ] **[Feature]** Implement these roles: Admin, Uploader, User
   * **Admin**:
