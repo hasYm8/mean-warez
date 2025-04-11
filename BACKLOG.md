@@ -7,8 +7,8 @@ This document outlines the features, improvements, and bug fixes planned for the
 
 ### High Priority
 
-* [ ] **[Feature]** Create Dockerfiles; create dev and prod compose profiles; fix env variables
-* [ ] **[Feature]** Use nginx instead of angular's development server
+* [X] **[Feature]** Create Dockerfiles; create dev and prod compose profiles; fix env variables
+* [X] **[Feature]** Use nginx instead of angular's development server in prod environment
 * [ ] **[Feature]** Registration / Login (with session)
 * [ ] **[Feature]** Implement these roles: Admin, Uploader, User
   * **Admin**:

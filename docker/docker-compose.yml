@@ -1,4 +1,53 @@
 services:
+  node-api:
+    container_name: api
+    build:
+      context: ../api/
+      dockerfile: Dockerfile
+    ports:
+      - "8800"
+    environment:
+      - ALLOWED_ORIGINS="http://localhost,http://client"
+      - MONGO_URL=mongodb://${DB_USER}:${DB_PASSWORD}@mongo:27017/${DB_NAME}?authSource=${DB_USER}
+      - JWT_SECRET=${JWT_SECRET}
+    networks:
+      - mean_net
+    depends_on:
+      - mongo
+    profiles:
+      - prod
+
+  angular-client:
+    container_name: client
+    build:
+      context: ../client/
+      dockerfile: Dockerfile
+    ports:
+      - "80"
+    networks:
+      - mean_net
+    profiles:
+      - prod
+    depends_on:
+      - node-api
+    environment:
+      NODE_ENV: production 
+
+  nginx:
+    container_name: nginx
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    profiles:
+      - prod
+    depends_on:
+      - node-api
+      - angular-client
+    networks:
+      - mean_net
+
   mongo:
     container_name: mongo
     image: mongo
@@ -22,6 +71,8 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: admin
       ME_CONFIG_MONGODB_URL: mongodb://admin:admin@mongo:27017/
       ME_CONFIG_BASICAUTH: false
+    depends_on:
+      - mongo
     networks:
       - mean_net
 

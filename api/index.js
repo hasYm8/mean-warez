@@ -12,11 +12,14 @@ import { seedBooksData } from './seed.js';
 const app = express();
 dotenv.config();
 
+const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : ['http://localhost:4200'];
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: "http://localhost:4200",
-    credentials: true
+    origin: allowedOrigins,
+    credentials: true,
+    methods: 'POST,GET,PUT,OPTIONS,DELETE'
 }));
 app.use("/api/role", roleRoute);
 app.use("/api/auth", authRoute);

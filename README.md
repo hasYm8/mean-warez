@@ -65,7 +65,7 @@ https://docs.google.com/document/d/1PDY0jedRbfdsNSUEc4WcMX4SsJa1M2o7niCWyoTGQ7U/
      JWT_SECRET=your_jwt_secret
      ```
 
-5. Start development servers
+5.1 Start development servers
    ```bash
    # Start Docker containers
    cd docker
@@ -80,7 +80,16 @@ https://docs.google.com/document/d/1PDY0jedRbfdsNSUEc4WcMX4SsJa1M2o7niCWyoTGQ7U/
    npm run start
    ```
 
-6. Visit `http://localhost:4200` in your browser
+ Visit `http://localhost:4200` in your browser
+
+ 5.12 Start production servers
+   ```bash
+   # Start Docker containers
+   cd docker
+   docker-compose --profile prod --env-file .env -p warez up -d 
+   ```
+
+ Visit `http://warez.local` in your browser
 
 ## Development
 
