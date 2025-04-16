@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { confirmPasswordValidator } from '../../../app/validators/confirm-password.validator'
 import { AuthService } from '../../services/auth.service';
@@ -12,11 +12,13 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent implements OnInit {
-  fb = inject(FormBuilder);
-  authService = inject(AuthService);
-  router = inject(Router);
-  
   registerForm!: FormGroup;
+
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
@@ -27,22 +29,22 @@ export class RegisterComponent implements OnInit {
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required]
     },
-    {
-      validator: confirmPasswordValidator('password', 'confirmPassword')
-    });
+      {
+        validator: confirmPasswordValidator('password', 'confirmPassword')
+      });
   }
 
   register() {
-    this.authService.registerService(this.registerForm.value)
-    .subscribe({
-      next: (res) => {
-        alert("User Created!");
-        this.registerForm.reset();
-        this.router.navigate(['login']);
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    });   
+    this.authService.register(this.registerForm.value)
+      .subscribe({
+        next: (res) => {
+          alert("User created");
+          this.registerForm.reset();
+          this.router.navigate(['login']);
+        },
+        error: (err) => {
+          alert("Registration failed");
+        }
+      });
   }
 }

@@ -1,4 +1,10 @@
-import mongoose, {Schema} from "mongoose";
+import mongoose from "mongoose";
+
+export const Roles = Object.freeze({
+    USER: 'USER',
+    UPLOADER: 'UPLOADER',
+    ADMIN: 'ADMIN'
+});
 
 const UserSchema = mongoose.Schema(
     {
@@ -24,19 +30,11 @@ const UserSchema = mongoose.Schema(
             type: String,
             required: true
         },
-        profileImage: {
-            type: String,
-            required: false,
-            default: "https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-Vector.png"
-        },
-        isAdmin: {
-            type: Boolean,
-            default: false
-        },
         roles: {
-            type: [Schema.Types.ObjectId],
+            type: [String],
             required: true,
-            ref: "Role"
+            enum: Roles,
+            default: [Roles.USER]
         }
     },
     {

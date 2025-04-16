@@ -17,7 +17,7 @@ https://docs.google.com/document/d/1PDY0jedRbfdsNSUEc4WcMX4SsJa1M2o7niCWyoTGQ7U/
 - **Single Page Application**: Fast, dynamic user interface built with Angular
 - **RESTful API**: Express backend providing structured data endpoints
 - **NoSQL Database**: Flexible MongoDB data storage
-- **Authentication**: JWT-based user authentication system
+- **Authentication**: Session-based user authentication system
 - **Responsive Design**: Mobile-friendly interface
 
 ## Tech Stack
@@ -60,9 +60,10 @@ https://docs.google.com/document/d/1PDY0jedRbfdsNSUEc4WcMX4SsJa1M2o7niCWyoTGQ7U/
    - Configure `.env` file
    - Add the following variables: TODO
      ```
-     PORT=3000
-     MONGODB_URI=mongodb://localhost:27017/mean-app
-     JWT_SECRET=your_jwt_secret
+     DB_NAME=
+     DB_USER=
+     DB_PASSWORD=
+     SESSION_SECRET=
      ```
 
 5.1 Start development servers

@@ -9,7 +9,7 @@ services:
     environment:
       - ALLOWED_ORIGINS="http://localhost,http://client"
       - MONGO_URL=mongodb://${DB_USER}:${DB_PASSWORD}@mongo:27017/${DB_NAME}?authSource=${DB_USER}
-      - JWT_SECRET=${JWT_SECRET}
+      - SESSION_SECRET=${SESSION_SECRET}
     networks:
       - mean_net
     depends_on:

@@ -9,8 +9,8 @@ This document outlines the features, improvements, and bug fixes planned for the
 
 * [X] **[Feature]** Create Dockerfiles; create dev and prod compose profiles; fix env variables
 * [X] **[Feature]** Use nginx instead of angular's development server in prod environment
-* [ ] **[Feature]** Registration / Login (with session)
-* [ ] **[Feature]** Implement these roles: Admin, Uploader, User
+* [X] **[Feature]** Registration / Login (with session)
+* [X] **[Feature]** Implement these roles: Admin, Uploader, User
   * **Admin**:
     * create or modify categories (e.g. software, game, movie, music)
     * supervise uploads

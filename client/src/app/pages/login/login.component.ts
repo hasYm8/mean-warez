@@ -25,18 +25,16 @@ export class LoginComponent {
   }
 
   login() {
-    this.authService.loginService(this.loginForm.value)
-    .subscribe({
-      next:(res) => {
-        alert("Login is Success!");
-        localStorage.setItem("user_id", res.data._id);
-        this.authService.isLoggedIn$.next(true);
-        this.router.navigate(['home']);
-        this.loginForm.reset();
-      },
-      error:(err) => {
-        console.log(err);
-      },
-    })
+    this.authService.login(this.loginForm.value)
+      .subscribe({
+        next: (res) => {
+          alert("Login successfully");
+          this.router.navigate(['home']);
+          this.loginForm.reset();
+        },
+        error: (err) => {
+          alert("Login error")
+        },
+      })
   }
 }
