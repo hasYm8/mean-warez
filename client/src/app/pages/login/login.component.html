@@ -3,16 +3,21 @@
     <form [formGroup]="loginForm" class="flex flex-col">
         <div class="flex flex-col mt-4 mb-1">
             <input formControlName="email" class="p-2 border border-gray-300 rounded" type="text" placeholder="Email">
-            <span *ngIf="loginForm.hasError('required', 'email') && loginForm.controls['email'].dirty" class="text-red-500">*Email is required</span>
+            <span *ngIf="loginForm.hasError('required', 'email') && loginForm.controls['email'].dirty"
+                class="text-red-500">*Email is required</span>
             <span *ngIf="loginForm.hasError('email', 'email')" class="text-red-500">*Email is invalid</span>
         </div>
         <div class="flex flex-col mt-4 mb-1">
-            <input formControlName="password" class="p-2 border border-gray-300 rounded" type="password" placeholder="Password">
-            <span *ngIf="loginForm.hasError('required', 'password') && loginForm.controls['password'].dirty" class="text-red-500">*Password is required</span>
+            <input formControlName="password" class="p-2 border border-gray-300 rounded" type="password"
+                placeholder="Password">
+            <span *ngIf="loginForm.hasError('required', 'password') && loginForm.controls['password'].dirty"
+                class="text-red-500">*Password is required</span>
         </div>
-        <button [disabled]="loginForm.invalid" [class.disabled]="loginForm.invalid" (click)="login()" class="bg-indigo-500 p-2 rounded mt-3 text-white">Login</button>
+        <button [disabled]="loginForm.invalid" [class.disabled]="loginForm.invalid" (click)="login()"
+            class="bg-indigo-500 p-2 rounded mt-3 text-white">Login</button>
     </form>
     <div class="flex justify-center mt-5">
-        <span>New to BookMyBook?</span> <a routerLink="/register" class="text-indigo-600 ml-2 cursor-pointer">Register Here</a>
+        <span>New to Shadow Market?</span> <a routerLink="/register"
+            class="text-indigo-600 ml-2 cursor-pointer">Register Here</a>
     </div>
 </div>
