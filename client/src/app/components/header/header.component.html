@@ -4,9 +4,9 @@
     </div>
     <div class="nav-items flex items-center space-x-4">
         @if (isLoggedIn) {
-        <span class="pi pi-cloud-upload text-4xl cursor-pointer" style="font-size: 2rem"></span>
-        <span class="pi pi-spin pi-cog text-4xl cursor-pointer" style="font-size: 2rem"></span>
-        <span class="pi pi-user text-4xl cursor-pointer" style="font-size: 2rem"></span>
+        <span routerLink="/upload" class="pi pi-cloud-upload text-4xl cursor-pointer" style="font-size: 2rem"></span>
+        <span routerLink="/admin" class="pi pi-spin pi-cog text-4xl cursor-pointer" style="font-size: 2rem"></span>
+        <span routerLink="/profile" class="pi pi-user text-4xl cursor-pointer" style="font-size: 2rem"></span>
         <span (click)="logout()" class="pi pi-sign-out text-4xl cursor-pointer" style="font-size: 2rem"></span>
         } @else {
         <span routerLink="/login" class="pi pi-sign-in text-4xl cursor-pointer" style="font-size: 2rem"></span>

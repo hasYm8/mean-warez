@@ -20,6 +20,24 @@ export const routes: Routes = [
         data: { requiredRoles: [Role.USER] }
     },
     {
+        path: 'profile',
+        loadComponent: () => import('./pages/profile/profile.component').then(a => a.ProfileComponent),
+        canActivate: [AuthGuardService],
+        data: { requiredRoles: [Role.USER] }
+    },
+    {
+        path: 'admin',
+        loadComponent: () => import('./pages/admin/admin.component').then(a => a.AdminComponent),
+        canActivate: [AuthGuardService],
+        data: { requiredRoles: [Role.USER] }
+    },
+    {
+        path: 'upload',
+        loadComponent: () => import('./pages/upload/upload.component').then(a => a.UploadComponent),
+        canActivate: [AuthGuardService],
+        data: { requiredRoles: [Role.USER] }
+    },
+    {
         path: '',
         redirectTo: 'home',
         pathMatch: 'full'
