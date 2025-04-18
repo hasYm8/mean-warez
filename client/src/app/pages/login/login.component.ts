@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -11,11 +12,14 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  fb = inject(FormBuilder);
-  authService = inject(AuthService);
-  router = inject(Router);
-
   loginForm!: FormGroup;
+
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private messageService: MessageService
+  ) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -28,12 +32,12 @@ export class LoginComponent {
     this.authService.login(this.loginForm.value)
       .subscribe({
         next: (res) => {
-          alert("Login successfully");
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Logged in' });
           this.router.navigate(['home']);
           this.loginForm.reset();
         },
         error: (err) => {
-          alert("Login error")
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed login' });
         },
       })
   }

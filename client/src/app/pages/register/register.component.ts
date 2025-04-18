@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { confirmPasswordValidator } from '../../../app/validators/confirm-password.validator'
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -38,12 +40,12 @@ export class RegisterComponent implements OnInit {
     this.authService.register(this.registerForm.value)
       .subscribe({
         next: (res) => {
-          alert("User created");
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Registrated successfully' });
           this.registerForm.reset();
           this.router.navigate(['login']);
         },
         error: (err) => {
-          alert("Registration failed");
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Registration failed' });
         }
       });
   }

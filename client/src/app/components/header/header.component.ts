@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +14,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -25,11 +27,11 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.authService.logout().subscribe({
       next: () => {
-        alert("Logout successfully")
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Logged out' });
         this.router.navigate(['/login']);
       },
       error: (error) => {
-        alert("Logout failed");
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed logout' });
       }
     });
   }
