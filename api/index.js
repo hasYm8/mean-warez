@@ -18,7 +18,7 @@ app.use(cookieParser());
 app.use(cors({
     origin: allowedOrigins,
     credentials: true,
-    methods: 'POST,GET,PUT,OPTIONS,DELETE'
+    methods: 'POST,GET,PUT,OPTIONS,DELETE,PATCH'
 }));
 app.use(session({
     secret: process.env.SESSION_SECRET,

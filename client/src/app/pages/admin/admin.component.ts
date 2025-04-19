@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { UserService } from '../../services/user.service';
 import { UserDto } from '../../dtos/UserDto';
@@ -16,7 +16,7 @@ interface Column {
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
 })
-export class AdminComponent {
+export class AdminComponent implements OnInit {
   users: UserDto[] = [];
 
   constructor(
@@ -30,7 +30,7 @@ export class AdminComponent {
   }
 
   private loadUsers() {
-    this.userService.getAllUsers().subscribe({
+    this.userService.getAll().subscribe({
       next: (data) => {
         this.users = data;
       },
@@ -67,7 +67,7 @@ export class AdminComponent {
   }
 
   private deleteUser(userId: string) {
-    this.userService.deleteUser(userId).subscribe({
+    this.userService.delete(userId).subscribe({
       next: (data) => {
         this.users = this.users.filter(user => user.id !== userId);
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'User deleted successfully' });

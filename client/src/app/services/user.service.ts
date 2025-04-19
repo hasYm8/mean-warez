@@ -15,20 +15,24 @@ export class UserService {
     private http: HttpClient
   ) { }
 
-  getAllUsers(): Observable<UserDto[]> {
+  getAll(): Observable<UserDto[]> {
     return this.http.get<Response<UserDto[]>>(`${this.apiUrl}`)
       .pipe(
         map(res => res.data)
       );
   }
 
-  deleteUser(userId: string): Observable<any> {
+  delete(userId: string): Observable<any> {
     return this.http.delete<Response<any>>(`${this.apiUrl}/${userId}`)
       .pipe(
-        map(response => response.data),
-        catchError(error => {
-          return throwError(() => error);
-        })
+        map(res => res.data)
+      );
+  }
+
+  update(user: UserDto): Observable<UserDto> {
+    return this.http.patch<Response<UserDto>>(`${this.apiUrl}`, user)
+      .pipe(
+        map(res => res.data)
       );
   }
 }

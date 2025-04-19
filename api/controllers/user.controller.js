@@ -48,3 +48,21 @@ export const deleteById = async (req, resp, next) => {
         return next(CreateError(500, "Internal Server Error"));
     }
 }
+
+export const update = async (req, resp, next) => {
+    try {
+        let updatedUser = new UserDto(req.body);
+
+        updatedUser = await User.findByIdAndUpdate(
+            req.session.userId,
+            { $set: updatedUser },
+            { new: true, runValidators: true }
+        );
+
+        return next(CreateSuccess(200, "Profile successfully updated"));
+    } catch (error) {
+        console.log(error);
+
+        return next(CreateError(500, "Internal Server Error"));
+    }
+}
