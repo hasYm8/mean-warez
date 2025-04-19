@@ -1,20 +1,31 @@
 <nav class="w-full flex justify-between items-center p-5 bg-gray-500 shadow-lg">
     <div class="logo">
-        <span class="text-4xl flex justify-start items-center">Shadow Market</span>
+        <div routerLink="/home" class="text-4xl flex justify-start items-center cursor-pointer">
+            <img src="shadow_market.png" alt="Shadow Market Logo" class="h-10 mr-3">
+            <span class="text-gray-200">Shadow Market</span>
+        </div>
     </div>
     <div class="nav-items flex items-center space-x-4">
         @if (isLoggedIn) {
+        <span routerLink="/home" class="pi pi-home text-4xl cursor-pointer text-gray-200"
+            style="font-size: 2rem"></span>
         @if (hasRole(Role.ADMIN) || hasRole(Role.UPLOADER)) {
-        <span routerLink="/upload" class="pi pi-cloud-upload text-4xl cursor-pointer" style="font-size: 2rem"></span>
+        <span routerLink="/upload" class="pi pi-cloud-upload text-4xl cursor-pointer text-gray-200"
+            style="font-size: 2rem"></span>
         }
         @if (hasRole(Role.ADMIN)) {
-        <span routerLink="/admin" class="pi pi-spin pi-cog text-4xl cursor-pointer" style="font-size: 2rem"></span>
+        <span routerLink="/admin" class="pi pi-spin pi-cog text-4xl cursor-pointer text-gray-200"
+            style="font-size: 2rem"></span>
         }
-        <span routerLink="/profile" class="pi pi-user text-4xl cursor-pointer" style="font-size: 2rem"></span>
-        <span (click)="logout()" class="pi pi-sign-out text-4xl cursor-pointer" style="font-size: 2rem"></span>
+        <span routerLink="/profile" class="pi pi-user text-4xl cursor-pointer text-gray-200"
+            style="font-size: 2rem"></span>
+        <span (click)="logout()" class="pi pi-sign-out text-4xl cursor-pointer text-gray-200"
+            style="font-size: 2rem"></span>
         } @else {
-        <span routerLink="/login" class="pi pi-sign-in text-4xl cursor-pointer" style="font-size: 2rem"></span>
-        <span routerLink="/register" class="pi pi-user-plus text-4xl cursor-pointer" style="font-size: 2rem"></span>
+        <span routerLink="/login" class="pi pi-sign-in text-4xl cursor-pointer text-gray-200"
+            style="font-size: 2rem"></span>
+        <span routerLink="/register" class="pi pi-user-plus text-4xl cursor-pointer text-gray-200"
+            style="font-size: 2rem"></span>
         }
     </div>
 </nav>
