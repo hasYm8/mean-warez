@@ -1,5 +1,5 @@
 # Application Backlog
-> **Version:** 1.0.2
+> **Version:** 1.0.3
 
 This document outlines the features, improvements, and bug fixes planned for the Warez MEAN stack application. Items are generally prioritized, but this is a living document and priorities may shift.
 
@@ -22,7 +22,11 @@ This document outlines the features, improvements, and bug fixes planned for the
   * **User**:
     * search and download content
     * comment and rate uploaded contents
-* [ ] **[Feature]** Design and implement basic pages without real functionality
+* [X] **[Feature]** Design and implement basic pages without real functionality
+* [ ] **[Feature]** Design and implement content upload page
+* [ ] **[Feature]** Design and implement content list page
+* [ ] **[Feature]** Design and implement content view / download page
+* [ ] **[Feature]** Implement every role functionality
 
 ### Medium Priority
 
