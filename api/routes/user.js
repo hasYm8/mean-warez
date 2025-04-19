@@ -1,13 +1,13 @@
 import express from 'express'
-import { getAllUsers, getById } from '../controllers/user.controller.js';
+import { getAll, getById, deleteById } from '../controllers/user.controller.js';
 import { verifyAdmin } from '../utils/auth.js';
 
 const router = express.Router();
 
-// Get all
-router.get('/', verifyAdmin, getAllUsers);
+router.get('/', verifyAdmin, getAll);
 
-// Get by id
 router.get('/:id', getById);
+
+router.delete('/:id', verifyAdmin, deleteById);
 
 export default router;

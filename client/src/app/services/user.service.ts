@@ -1,0 +1,34 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { catchError, map, Observable, throwError } from 'rxjs';
+import { UserDto } from '../dtos/UserDto';
+import { Response } from '../dtos/Response';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserService {
+  private apiUrl = environment.apiUrl + '/user';
+
+  constructor(
+    private http: HttpClient
+  ) { }
+
+  getAllUsers(): Observable<UserDto[]> {
+    return this.http.get<Response<UserDto[]>>(`${this.apiUrl}`)
+      .pipe(
+        map(res => res.data)
+      );
+  }
+
+  deleteUser(userId: string): Observable<any> {
+    return this.http.delete<Response<any>>(`${this.apiUrl}/${userId}`)
+      .pipe(
+        map(response => response.data),
+        catchError(error => {
+          return throwError(() => error);
+        })
+      );
+  }
+}
