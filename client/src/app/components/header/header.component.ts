@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { MessageService } from 'primeng/api';
+import { UserDto, Role } from '../../dtos/UserDto';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,9 @@ import { MessageService } from 'primeng/api';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent implements OnInit {
+  public Role = Role;
   isLoggedIn: boolean = false;
+  currentUser: UserDto | null = null;
 
   constructor(
     private authService: AuthService,
@@ -22,6 +25,11 @@ export class HeaderComponent implements OnInit {
     this.authService.isLoggedIn$.subscribe(res => {
       this.isLoggedIn = this.authService.isLoggedIn;
     });
+
+    this.authService.currentUser$.subscribe(res => {
+      this.currentUser = this.authService.currentUser;
+    }
+    )
   }
 
   logout() {
@@ -34,5 +42,9 @@ export class HeaderComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed logout' });
       }
     });
+  }
+
+  hasRole(role: Role) {
+    return this.currentUser?.roles.includes(role);
   }
 }

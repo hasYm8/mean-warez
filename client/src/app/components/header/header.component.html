@@ -4,8 +4,12 @@
     </div>
     <div class="nav-items flex items-center space-x-4">
         @if (isLoggedIn) {
+        @if (hasRole(Role.ADMIN) || hasRole(Role.UPLOADER)) {
         <span routerLink="/upload" class="pi pi-cloud-upload text-4xl cursor-pointer" style="font-size: 2rem"></span>
+        }
+        @if (hasRole(Role.ADMIN)) {
         <span routerLink="/admin" class="pi pi-spin pi-cog text-4xl cursor-pointer" style="font-size: 2rem"></span>
+        }
         <span routerLink="/profile" class="pi pi-user text-4xl cursor-pointer" style="font-size: 2rem"></span>
         <span (click)="logout()" class="pi pi-sign-out text-4xl cursor-pointer" style="font-size: 2rem"></span>
         } @else {
