@@ -5,10 +5,11 @@ import { TorrentDto } from '../../dtos/TorrentDto';
 import { FormsModule } from '@angular/forms';
 import { Rating } from 'primeng/rating';
 import { TorrentService } from '../../services/torrent.service';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, TableModule, FormsModule, Rating],
+  imports: [CommonModule, TableModule, FormsModule, Rating, RouterModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -18,7 +19,8 @@ export class HomeComponent implements OnInit {
   torrents: TorrentDto[] = [];
 
   constructor(
-    private torrentService: TorrentService
+    private torrentService: TorrentService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -34,5 +36,9 @@ export class HomeComponent implements OnInit {
         console.error(err);
       }
     });
+  }
+
+  routeTorrent(id: string) {
+    this.router.navigate(['/torrent', id]);
   }
 }

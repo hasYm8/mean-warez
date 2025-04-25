@@ -38,6 +38,12 @@ export const routes: Routes = [
         data: { requiredRoles: [Role.USER] }
     },
     {
+        path: 'torrent/:id',
+        loadComponent: () => import('./pages/torrent/torrent.component').then(a => a.TorrentComponent),
+        canActivate: [AuthGuardService],
+        data: { requiredRoles: [Role.USER] }
+    },
+    {
         path: '',
         redirectTo: 'home',
         pathMatch: 'full'

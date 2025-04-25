@@ -13,12 +13,15 @@
                 </tr>
             </ng-template>
             <ng-template #body let-torrent>
-                <tr>
-                    <td>{{ torrent.title }}</td>
-                    <td>{{ torrent.size }}</td>
-                    <td>{{ torrent.createdAt | date:'dd/MM/yyyy' }}</td>
-                    <td>{{ 10 }}</td>
-                    <td><p-rating [(ngModel)]="value" [disabled]="true" /></td>
+                <tr class="group cursor-pointer" (click)="routeTorrent(torrent.id)">
+                    <td class="group-hover:bg-gray-200 transition-colors duration-150">{{ torrent.title }}</td>
+                    <td class="group-hover:bg-gray-200 transition-colors duration-150">{{ torrent.size }}</td>
+                    <td class="group-hover:bg-gray-200 transition-colors duration-150">{{ torrent.createdAt |
+                        date:'dd/MM/yyyy' }}</td>
+                    <td class="group-hover:bg-gray-200 transition-colors duration-150">{{ 10 }}</td>
+                    <td class="group-hover:bg-gray-200 transition-colors duration-150">
+                        <p-rating [(ngModel)]="value" [readonly]="true" />
+                    </td>
                 </tr>
             </ng-template>
         </p-table>
