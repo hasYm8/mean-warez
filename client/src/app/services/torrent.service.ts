@@ -22,6 +22,13 @@ export class TorrentService {
       );
   }
 
+  getById(torrentId: string): Observable<TorrentDto> {
+    return this.http.get<Response<TorrentDto>>(`${this.apiUrl}/${torrentId}`)
+      .pipe(
+        map(res => res.data)
+      );
+  }
+
   upload(uploadForm: { title: string, description: string, selectedCategories: any[], file: File }): Observable<HttpEvent<any>> {
     const formData = new FormData();
 

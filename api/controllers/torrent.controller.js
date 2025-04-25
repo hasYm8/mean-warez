@@ -18,6 +18,18 @@ export const getAll = async (req, resp, next) => {
     }
 }
 
+export const getById = async (req, resp, next) => {
+    try {
+        const torrent = await Torrent.findById(req.params.id);
+        if (!torrent) {
+            return next(CreateError(404, "Torrent not found!"));
+        }
+        return next(CreateSuccess(200, "Single torrent received", new TorrentDto(torrent)));
+    } catch (error) {
+        return next(CreateError(500, "Internal Server Error"));
+    }
+}
+
 export const upload = async (req, res, next) => {
     uploader(req, res, async function (err) {
         if (err instanceof multer.MulterError) {
