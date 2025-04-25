@@ -6,6 +6,17 @@ import multer from 'multer';
 import { Readable } from 'stream';
 import { bucket } from '../index.js';
 import mongoose from 'mongoose';
+import { TorrentDto } from "../dtos/TorrentDto.js";
+
+export const getAll = async (req, resp, next) => {
+    try {
+        const torrents = await Torrent.find();
+        const torrentDtos = torrents.map(torrent => new TorrentDto(torrent));
+        return next(CreateSuccess(200, "All torrents received", torrentDtos));
+    } catch (error) {
+        return next(CreateError(500, "Internal Server Error"));
+    }
+}
 
 export const upload = async (req, res, next) => {
     uploader(req, res, async function (err) {

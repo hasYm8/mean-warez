@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Response } from '../dtos/Response';
 import { map, Observable } from 'rxjs';
+import { TorrentDto } from '../dtos/TorrentDto';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,14 @@ export class TorrentService {
     private http: HttpClient
   ) { }
 
-  upload(uploadForm: { title: string, description: string, selectedCategories: any[], file: File }): Observable<HttpEvent<any>> {
+  getAll(): Observable<TorrentDto[]> {
+    return this.http.get<Response<TorrentDto[]>>(`${this.apiUrl}`)
+      .pipe(
+        map(res => res.data)
+      );
+  }
 
+  upload(uploadForm: { title: string, description: string, selectedCategories: any[], file: File }): Observable<HttpEvent<any>> {
     const formData = new FormData();
 
     formData.append('title', uploadForm.title);
