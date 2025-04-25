@@ -1,11 +1,13 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import MongoStore from 'connect-mongo';
+import { GridFSBucket } from 'mongodb';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import authRoute from './routes/auth.js'
 import userRoute from './routes/user.js'
 import bookRoute from './routes/book.js'
+import torrentRoute from './routes/torrent.js'
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import { seedBooksData } from './seed.js';
@@ -35,6 +37,7 @@ app.use(session({
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/book", bookRoute);
+app.use("/api/torrent", torrentRoute);
 
 app.use((obj, req, res, next) => {
     const statusCode = obj.status || 500;
@@ -52,13 +55,18 @@ app.listen(8800, () => {
     console.log('Connected to backend');
 });
 
+export var bucket;
 const connectMongoDB = async () => {
     try {
         await mongoose.connect(process.env.MONGO_URL);
+
+        const db = mongoose.connection.db;
+        bucket = new GridFSBucket(db, { bucketName: 'uploads' });
+        console.log("Connected to database");
+
         if (process.argv.includes("--seed")) {
             await seedBooksData();
         }
-        console.log("Connected to database");
     } catch (error) {
         throw error;
     }
