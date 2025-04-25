@@ -1,5 +1,5 @@
 # Application Backlog
-> **Version:** 1.0.3
+> **Version:** 1.0.4
 
 This document outlines the features, improvements, and bug fixes planned for the Warez MEAN stack application. Items are generally prioritized, but this is a living document and priorities may shift.
 
@@ -38,3 +38,4 @@ This document outlines the features, improvements, and bug fixes planned for the
 ### Low Priority
 
 * [ ] **[Feature]** ReadME should be up to date at end of the project
+* [ ] **[Feature]** AuthGuard required roles should be fixed at end of the project
