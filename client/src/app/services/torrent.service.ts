@@ -64,4 +64,19 @@ export class TorrentService {
         map(res => res.data)
       );
   }
+
+  rate(torrentId: string, score: number): Observable<any> {
+    return this.http.post<Response<any>>(`${this.apiUrl}/${torrentId}/rate`, { score: score })
+      .pipe(
+        map(res => res.data)
+      );
+  }
+
+  deleteRate(torrentId: string): Observable<any> {
+    return this.http.delete<Response<any>>(`${this.apiUrl}/${torrentId}/rate`)
+      .pipe(
+        map(res => res.data)
+      );
+  }
+
 }

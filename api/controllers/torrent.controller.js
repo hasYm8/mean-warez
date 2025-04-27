@@ -1,4 +1,5 @@
 import Torrent from "../models/Torrent.js";
+import Rating from "../models/Rating.js";
 import Comment from "../models/Comment.js";
 import User from "../models/User.js";
 import { CreateError } from '../utils/error.js';
@@ -179,6 +180,50 @@ export const getAllComments = async (req, resp, next) => {
         const commentDtos = await Promise.all(commentPromises);
 
         return next(CreateSuccess(200, "All comments received", commentDtos));
+    } catch (error) {
+        return next(CreateError(500, "Internal Server Error"));
+    }
+}
+
+export const rate = async (req, res, next) => {
+    try {
+        const filter = {
+            userId: req.session.userId,
+            torrentId: req.params.id
+        };
+
+        const update = {
+            score: req.body.score
+        };
+
+        const options = {
+            upsert: true,
+            new: true
+        };
+
+        await Rating.findOneAndUpdate(filter, update, options);
+        return next(CreateSuccess(200, "Torrent rated successfully"));
+    } catch (error) {
+        console.log(error);
+
+        return next(CreateError(500, "Something went wrong"));
+    }
+}
+
+export const deleteRate = async (req, resp, next) => {
+    try {
+        const filter = {
+            userId: req.session.userId,
+            torrentId: req.params.id
+        };
+
+        const deleteResult = await Rating.deleteOne(filter);
+
+        if (deleteResult.deletedCount === 0) {
+            return next(CreateError(404, "Rating not found"));
+        }
+
+        return next(CreateSuccess(200, "Rating deleted successfully"));
     } catch (error) {
         return next(CreateError(500, "Internal Server Error"));
     }

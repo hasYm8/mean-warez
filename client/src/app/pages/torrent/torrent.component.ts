@@ -11,10 +11,11 @@ import { CommentDto } from '../../dtos/Comment';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { UserDto } from '../../dtos/User';
+import { Rating } from 'primeng/rating';
 
 @Component({
   selector: 'app-torrent',
-  imports: [CommonModule, CardModule, ButtonModule, FormsModule, TextareaModule],
+  imports: [CommonModule, CardModule, ButtonModule, FormsModule, TextareaModule, Rating],
   templateUrl: './torrent.component.html',
   styleUrl: './torrent.component.scss'
 })
@@ -57,6 +58,8 @@ export class TorrentComponent implements OnInit, AfterViewChecked {
     },
   ];
   commentText: string = '';
+
+  rateScore: number | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -153,5 +156,33 @@ export class TorrentComponent implements OnInit, AfterViewChecked {
       });
 
     this.commentText = '';
+  }
+
+  onRate() {
+    if (this.rateScore) {
+      this.torrentService.rate(this.torrentId!, this.rateScore)
+        .subscribe({
+          next: (res) => {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Rated successfully' });
+          },
+          error: (err) => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Rate failed' });
+          }
+        });
+    }
+  }
+
+  onCancelRate() {
+    if (!this.rateScore) {
+      this.torrentService.deleteRate(this.torrentId!)
+        .subscribe({
+          next: (res) => {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Rate deleted successfully' });
+          },
+          error: (err) => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Rate deletion failed' });
+          }
+        });
+    }
   }
 }
