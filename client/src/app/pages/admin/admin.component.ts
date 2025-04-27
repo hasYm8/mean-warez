@@ -4,6 +4,7 @@ import { TableModule } from 'primeng/table';
 import { UserService } from '../../services/user.service';
 import { UserDto } from '../../dtos/User';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { TabsModule } from 'primeng/tabs';
 
 interface Column {
   field: string;
@@ -12,7 +13,7 @@ interface Column {
 
 @Component({
   selector: 'app-admin',
-  imports: [CommonModule, TableModule],
+  imports: [CommonModule, TableModule, TabsModule],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
 })
