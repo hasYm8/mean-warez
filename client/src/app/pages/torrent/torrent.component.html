@@ -1,8 +1,8 @@
-<div class="flex justify-center mt-60 gap-25 h-[50vh]">
+<div class="flex justify-center mt-30 gap-25 h-[60vh]">
     <div class="flex flex-col gap-4 bg-white p-8 rounded-lg shadow-md">
-        <h1 class="text-2xl font-semibold text-gray-800 mb-4">Torrent</h1>
+        <h1 class="text-2xl flex-none font-semibold text-gray-800 mb-4">Torrent</h1>
 
-        <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+        <p-card class="flex-grow" [style]="{ width: '25rem', overflow: 'hidden' }">
             <ng-template #header>
                 <img alt="Card" class="w-full" src="shadow_market_black_cropped.png" />
             </ng-template>
@@ -15,7 +15,9 @@
             </ng-template>
         </p-card>
 
-        <p-rating (onRate)="onRate()" (onCancel)="onCancelRate()" [(ngModel)]="rateScore" />
+        <div class="flex flex-none justify-center w-full">
+            <p-rating (onRate)="onRate()" (onCancel)="onCancelRate()" [(ngModel)]="rateScore" />
+        </div>
     </div>
 
     <div class="flex flex-col bg-white p-8 rounded-lg shadow-md w-4xl">

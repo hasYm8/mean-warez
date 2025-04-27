@@ -15,7 +15,30 @@ import { CommentDto } from "../dtos/Torrent.js";
 export const getAll = async (req, resp, next) => {
     try {
         const torrents = await Torrent.find();
-        const torrentDtos = torrents.map(torrent => new TorrentDto(torrent));
+
+        const torrentDtos = await Promise.all(torrents.map(async (torrent) => {
+            let userRateScore = null;
+            const userRating = await Rating.findOne({
+                torrentId: torrent._id,
+                userId: req.session.userId
+            });
+
+            if (userRating) {
+                userRateScore = userRating.score;
+            }
+
+
+            let avgRateScore = null;
+            const allRatings = await Rating.find({ torrentId: torrent._id });
+
+            if (allRatings.length > 0) {
+                const totalScore = allRatings.reduce((sum, rating) => sum + rating.score, 0);
+                avgRateScore = totalScore / allRatings.length;
+            }
+
+            return new TorrentDto(torrent, { score: userRateScore }, avgRateScore);
+        }));
+
         return next(CreateSuccess(200, "All torrents received", torrentDtos));
     } catch (error) {
         return next(CreateError(500, "Internal Server Error"));
@@ -28,7 +51,27 @@ export const getById = async (req, resp, next) => {
         if (!torrent) {
             return next(CreateError(404, "Torrent not found!"));
         }
-        return next(CreateSuccess(200, "Single torrent received", new TorrentDto(torrent)));
+
+        let userRateScore = null;
+        const userRating = await Rating.findOne({
+            torrentId: torrent._id,
+            userId: req.session.userId
+        });
+
+        if (userRating) {
+            userRateScore = userRating.score;
+        }
+
+
+        let avgRateScore = null;
+        const allRatings = await Rating.find({ torrentId: torrent._id });
+
+        if (allRatings.length > 0) {
+            const totalScore = allRatings.reduce((sum, rating) => sum + rating.score, 0);
+            avgRateScore = totalScore / allRatings.length;
+        }
+
+        return next(CreateSuccess(200, "Single torrent received", new TorrentDto(torrent, { score: userRateScore }, avgRateScore)));
     } catch (error) {
         return next(CreateError(500, "Internal Server Error"));
     }

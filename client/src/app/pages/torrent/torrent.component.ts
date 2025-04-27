@@ -25,40 +25,8 @@ export class TorrentComponent implements OnInit, AfterViewChecked {
   currentUser: UserDto | null = null;
   torrentId: string | null = null;
   torrent: TorrentDto | null = null;
-  comments: CommentDto[] = [
-    {
-      user: { id: "6803b2f3fd185d2c5979eb2a", username: 'Alice' },
-      torrentId: 'torrent-abc-123',
-      text: 'Great upload, seeding now!',
-      date: new Date('2025-04-10T10:30:00Z'), // Example past date
-    },
-    {
-      user: { id: "6803b2f3fd185d2c5979eb2a", username: 'Bob' },
-      torrentId: 'torrent-abc-123', // Same torrent as Alice's comment
-      text: 'Thanks! Works perfectly on my system.',
-      date: new Date('2020-04-26T14:15:00Z'),
-    },
-    {
-      user: { id: "6803b2f3fd185d2c5979eb2a", username: 'Charlie' },
-      torrentId: 'torrent-xyz-789', // A different torrent
-      text: 'Anyone else having issues with chapter 3?',
-      date: new Date('2025-04-27T08:00:00Z'),
-    },
-    {
-      user: { id: "6803b2f3fd185d2c5979eb2a", username: 'David' },
-      torrentId: 'torrent-xyz-789', // Same torrent as Charlie's comment
-      text: 'No issues here, maybe try redownloading?',
-      date: new Date('2025-02-27T09:45:10Z'),
-    },
-    {
-      user: { id: '6803b2f3fd185d2c5979eb2a', username: 'Eve' }, // Example with a predefined ID
-      torrentId: 'torrent-abc-123', // Back to the first torrent
-      text: 'Appreciate the fast speeds.',
-      date: new Date(), // Current date and time
-    },
-  ];
+  comments: CommentDto[] = [];
   commentText: string = '';
-
   rateScore: number | null = null;
 
   constructor(
@@ -75,6 +43,9 @@ export class TorrentComponent implements OnInit, AfterViewChecked {
     this.torrentService.getById(this.torrentId!).subscribe({
       next: (data) => {
         this.torrent = data;
+        if (this.torrent.userRateScore) {
+          this.rateScore = this.torrent.userRateScore;
+        }
       },
       error: (err) => {
         this.router.navigate(['/home']);

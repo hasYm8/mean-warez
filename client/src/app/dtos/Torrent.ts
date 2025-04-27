@@ -8,4 +8,6 @@ export interface TorrentDto {
     size: number;
     uploaderId: string;
     createdAt: Date;
+    userRateScore?: number;
+    avgRateScore?: number;
 }

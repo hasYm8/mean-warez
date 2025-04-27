@@ -20,7 +20,7 @@
                         date:'dd/MM/yyyy' }}</td>
                     <td class="group-hover:bg-gray-200 transition-colors duration-150">{{ 10 }}</td>
                     <td class="group-hover:bg-gray-200 transition-colors duration-150">
-                        <p-rating [(ngModel)]="value" [readonly]="true" />
+                        <p-rating [(ngModel)]="torrent.avgRateScore" [disabled]="true" />
                     </td>
                 </tr>
             </ng-template>

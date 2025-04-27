@@ -1,5 +1,5 @@
 export class TorrentDto {
-    constructor(torrent) {
+    constructor(torrent, rate, avgRateScore) {
         this.id = torrent._id;
         this.title = torrent.title;
         this.description = torrent.description;
@@ -9,6 +9,8 @@ export class TorrentDto {
         this.size = torrent.size;
         this.uploaderId = torrent.uploaderId;
         this.createdAt = torrent.createdAt;
+        this.userRateScore = rate.score;
+        this.avgRateScore = avgRateScore;
     }
 }
 
