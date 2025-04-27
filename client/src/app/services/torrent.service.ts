@@ -4,6 +4,7 @@ import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Response } from '../dtos/Response';
 import { map, Observable } from 'rxjs';
 import { TorrentDto } from '../dtos/TorrentDto';
+import { CommentDto } from '../dtos/Comment';
 
 @Injectable({
   providedIn: 'root'
@@ -48,5 +49,19 @@ export class TorrentService {
     return this.http.get(downloadUrl, {
       responseType: 'blob'
     });
+  }
+
+  saveComment(comment: CommentDto): Observable<CommentDto> {
+    return this.http.post<Response<CommentDto>>(`${this.apiUrl}/comment`, comment)
+      .pipe(
+        map(res => res.data)
+      );
+  }
+
+  getAllComments(torrentId: string): Observable<CommentDto[]> {
+    return this.http.get<Response<CommentDto[]>>(`${this.apiUrl}/${torrentId}/comment`)
+      .pipe(
+        map(res => res.data)
+      );
   }
 }

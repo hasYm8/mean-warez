@@ -12,3 +12,8 @@ export interface UserDto {
     email: string;
     roles: Role[];
 }
+
+export interface SimplifiedUserDto {
+    id: string;
+    username: string;
+}

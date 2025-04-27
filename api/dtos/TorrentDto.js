@@ -11,3 +11,16 @@ export class TorrentDto {
         this.createdAt = torrent.createdAt;
     }
 }
+
+
+export class CommentDto {
+    constructor(comment, user) {
+        this.user = {
+            id: user._id,
+            username: user.username
+        }
+        this.torrentId = comment.torrentId;
+        this.text = comment.text;
+        this.date = comment.createdAt;
+    }
+}

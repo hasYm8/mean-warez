@@ -1,4 +1,6 @@
 import Torrent from "../models/Torrent.js";
+import Comment from "../models/Comment.js";
+import User from "../models/User.js";
 import { CreateError } from '../utils/error.js';
 import { CreateSuccess } from '../utils/success.js';
 import { uploader } from "../config/multer.config.js";
@@ -7,6 +9,7 @@ import { Readable } from 'stream';
 import { bucket } from '../index.js';
 import mongoose from 'mongoose';
 import { TorrentDto } from "../dtos/TorrentDto.js";
+import { CommentDto } from "../dtos/TorrentDto.js";
 
 export const getAll = async (req, resp, next) => {
     try {
@@ -146,3 +149,37 @@ export const download = async (req, res, next) => {
         }
     }
 };
+
+export const saveComment = async (req, res, next) => {
+    try {
+        const comment = new Comment({
+            userId: req.body.user.id,
+            torrentId: req.body.torrentId,
+            text: req.body.text
+        });
+        const user = await User.findById(req.session.userId);
+
+        await comment.save();
+        return next(CreateSuccess(200, "Comment saved successfully"), new CommentDto(comment, user));
+    } catch (error) {
+        console.log(error);
+
+        return next(CreateError(500, "Something went wrong"));
+    }
+}
+
+export const getAllComments = async (req, resp, next) => {
+    try {
+        const comments = await Comment.find({ torrentId: req.params.id });
+
+        const commentPromises = comments.map(async comment => {
+            const user = await User.findById(comment.userId);
+            return new CommentDto(comment, user);
+        });
+        const commentDtos = await Promise.all(commentPromises);
+
+        return next(CreateSuccess(200, "All comments received", commentDtos));
+    } catch (error) {
+        return next(CreateError(500, "Internal Server Error"));
+    }
+}

@@ -1,4 +1,4 @@
-<div class="flex justify-center mt-60">
+<div class="flex justify-center mt-60 gap-25 h-[50vh]">
     <div class="flex flex-col gap-4 bg-white p-8 rounded-lg shadow-md">
         <h1 class="text-2xl font-semibold text-gray-800 mb-4">Torrent</h1>
 
@@ -13,6 +13,37 @@
                     <p-button (onClick)="onDownload()" label="Download" severity="secondary" />
                 </div>
             </ng-template>
+        </p-card>
+    </div>
+
+    <div class="flex flex-col bg-white p-8 rounded-lg shadow-md w-4xl">
+        <h1 class="flex-none text-2xl font-semibold text-gray-800 mb-4">Comments</h1>
+
+        <div #scrollContainer class="flex flex-grow flex-col gap-4 overflow-y-auto">
+            <p-card *ngFor="let comment of comments" class="w-full" [header]="comment.user.username">
+                <p>
+                    {{ comment.text }}
+                </p>
+
+                <p class="text-end">
+                    {{ comment.date | date:'dd/MM/yyyy' }}
+                </p>
+            </p-card>
+
+            <div *ngIf="!comments || comments.length === 0" class="self-center text-gray-500">
+                There are no comments yet. Share your opinion!
+            </div>
+        </div>
+
+        <p-card class="flex-none mt-4" header=" Write a comment">
+            <div class="flex flex-row items-end gap-4">
+                <textarea id="newComment" pInputTextarea [rows]="3" [cols]="40" maxlength="200"
+                    placeholder="Write your comment here..." class="w-full resize-none"
+                    [(ngModel)]="commentText"></textarea>
+                <p-button (onClick)="onSubmit()" [disabled]="!commentText || commentText.trim() === ''" label="Submit"
+                    icon="pi pi-send" severity="secondary" iconPos="right">
+                </p-button>
+            </div>
         </p-card>
     </div>
 </div>

@@ -8,3 +8,10 @@ export class UserDto {
         this.roles = user.roles;
     }
 }
+
+export class SimplifiedUserDto {
+    constructor(user) {
+        this.id = user._id;
+        this.username = user.username;
+    }
+}
