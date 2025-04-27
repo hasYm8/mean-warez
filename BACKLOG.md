@@ -1,5 +1,5 @@
 # Application Backlog
-> **Version:** 1.0.4
+> **Version:** 1.0.5
 
 This document outlines the features, improvements, and bug fixes planned for the Warez MEAN stack application. Items are generally prioritized, but this is a living document and priorities may shift.
 
@@ -24,15 +24,17 @@ This document outlines the features, improvements, and bug fixes planned for the
     * comment and rate uploaded contents
 * [X] **[Feature]** Design and implement basic pages without real functionality
 * [X] **[Feature]** Design and implement content upload page
-* [ ] **[Feature]** Design and implement content list page
-* [ ] **[Feature]** Design and implement content view / download page
+* [X] **[Feature]** Design and implement content list page
+* [X] **[Feature]** Design and implement content view / download page
 * [ ] **[Feature]** Implement every role functionality
+* [ ] **[Feature]** Implement categories
+* [ ] **[Feature]** Implement admin features
 
 ### Medium Priority
 
 * [ ] **[Feature]** Make password updateable on profile page
 * [ ] **[Feature]** Refact forms on registration and login page
-* [ ] **[Feature]** MongoDB should have minimum 4 collections
+* [X] **[Feature]** MongoDB should have minimum 4 collections
 * [ ] **[Feature]** MongoDB should have test data in it on startup
 
 ### Low Priority
