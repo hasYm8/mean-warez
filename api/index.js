@@ -6,7 +6,6 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import authRoute from './routes/auth.js'
 import userRoute from './routes/user.js'
-import bookRoute from './routes/book.js'
 import torrentRoute from './routes/torrent.js'
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
@@ -36,7 +35,6 @@ app.use(session({
 
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
-app.use("/api/book", bookRoute);
 app.use("/api/torrent", torrentRoute);
 
 app.use((obj, req, res, next) => {
