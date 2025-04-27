@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { catchError, map, Observable, throwError } from 'rxjs';
-import { UserDto } from '../dtos/UserDto';
+import { UserDto } from '../dtos/User';
 import { Response } from '../dtos/Response';
 
 @Injectable({

@@ -1,4 +1,4 @@
-import { SimplifiedUserDto } from "./UserDto";
+import { SimplifiedUserDto } from "./User";
 
 export interface CommentDto {
     user: SimplifiedUserDto;

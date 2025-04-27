@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
-import { TorrentDto } from '../../dtos/TorrentDto';
+import { TorrentDto } from '../../dtos/Torrent';
 import { FormsModule } from '@angular/forms';
 import { Rating } from 'primeng/rating';
 import { TorrentService } from '../../services/torrent.service';

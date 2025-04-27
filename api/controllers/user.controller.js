@@ -1,7 +1,7 @@
 import User, { Roles } from "../models/User.js";
 import { CreateError } from "../utils/error.js"
 import { CreateSuccess } from "../utils/success.js";
-import { UserDto } from "../dtos/UserDto.js";
+import { UserDto } from "../dtos/User.js";
 import mongoose from "mongoose";
 
 export const getAll = async (req, resp, next) => {

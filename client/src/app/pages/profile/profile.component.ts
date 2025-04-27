@@ -7,7 +7,7 @@ import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
-import { UserDto } from '../../dtos/UserDto';
+import { UserDto } from '../../dtos/User';
 import { MessageService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
 

@@ -3,7 +3,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Response } from '../dtos/Response';
 import { map, Observable } from 'rxjs';
-import { TorrentDto } from '../dtos/TorrentDto';
+import { TorrentDto } from '../dtos/Torrent';
 import { CommentDto } from '../dtos/Comment';
 
 @Injectable({

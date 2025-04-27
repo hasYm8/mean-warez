@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
-import { Role } from '../dtos/UserDto';
+import { Role } from '../dtos/User';
 
 @Injectable({
     providedIn: 'root'

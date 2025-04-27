@@ -8,8 +8,8 @@ import multer from 'multer';
 import { Readable } from 'stream';
 import { bucket } from '../index.js';
 import mongoose from 'mongoose';
-import { TorrentDto } from "../dtos/TorrentDto.js";
-import { CommentDto } from "../dtos/TorrentDto.js";
+import { TorrentDto } from "../dtos/Torrent.js";
+import { CommentDto } from "../dtos/Torrent.js";
 
 export const getAll = async (req, resp, next) => {
     try {

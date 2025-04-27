@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { UserService } from '../../services/user.service';
-import { UserDto } from '../../dtos/UserDto';
+import { UserDto } from '../../dtos/User';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
 interface Column {

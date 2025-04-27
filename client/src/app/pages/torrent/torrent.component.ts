@@ -2,7 +2,7 @@ import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@ang
 import { ActivatedRoute, Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
-import { TorrentDto } from '../../dtos/TorrentDto';
+import { TorrentDto } from '../../dtos/Torrent';
 import { TorrentService } from '../../services/torrent.service';
 import { MessageService } from 'primeng/api';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +10,7 @@ import { TextareaModule } from 'primeng/textarea';
 import { CommentDto } from '../../dtos/Comment';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { UserDto } from '../../dtos/UserDto';
+import { UserDto } from '../../dtos/User';
 
 @Component({
   selector: 'app-torrent',

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { MessageService } from 'primeng/api';
-import { UserDto, Role } from '../../dtos/UserDto';
+import { UserDto, Role } from '../../dtos/User';
 
 @Component({
   selector: 'app-header',

@@ -2,7 +2,7 @@ import User from "../models/User.js"
 import bcrypt from 'bcryptjs';
 import { CreateError } from "../utils/error.js";
 import { CreateSuccess } from "../utils/success.js";
-import { UserDto } from "../dtos/UserDto.js";
+import { UserDto } from "../dtos/User.js";
 
 export const register = async (req, res, next) => {
     try {

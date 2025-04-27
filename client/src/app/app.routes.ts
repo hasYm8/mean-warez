@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { AuthGuardService } from './auth/auth-guard.service';
-import { Role } from './dtos/UserDto';
+import { Role } from './dtos/User';
 
 export const routes: Routes = [
     {
