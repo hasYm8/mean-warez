@@ -183,6 +183,17 @@ export const download = async (req, res, next) => {
             }
         });
 
+        res.on('finish', async () => {
+            try {
+                await Torrent.findByIdAndUpdate(
+                    torrentId,
+                    { $inc: { totalDownload: 1 } }
+                );
+            } catch (error) {
+                console.log(error);
+            }
+        });
+
         downloadStream.pipe(res);
     } catch (error) {
         if (error.name === 'CastError') {

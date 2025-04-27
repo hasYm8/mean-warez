@@ -32,6 +32,11 @@ const TorrentSchema = mongoose.Schema(
         uploaderId: {
             type: mongoose.Schema.Types.ObjectId,
             required: true
+        },
+        totalDownload: {
+            type: Number,
+            required: true,
+            default: 0
         }
     },
     {

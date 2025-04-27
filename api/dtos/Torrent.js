@@ -9,6 +9,7 @@ export class TorrentDto {
         this.size = torrent.size;
         this.uploaderId = torrent.uploaderId;
         this.createdAt = torrent.createdAt;
+        this.totalDownload = torrent.totalDownload;
         this.userRateScore = rate.score;
         this.avgRateScore = avgRateScore;
     }

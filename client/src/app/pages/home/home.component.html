@@ -18,7 +18,7 @@
                     <td class="group-hover:bg-gray-200 transition-colors duration-150">{{ torrent.size }}</td>
                     <td class="group-hover:bg-gray-200 transition-colors duration-150">{{ torrent.createdAt |
                         date:'dd/MM/yyyy' }}</td>
-                    <td class="group-hover:bg-gray-200 transition-colors duration-150">{{ 10 }}</td>
+                    <td class="group-hover:bg-gray-200 transition-colors duration-150">{{ torrent.totalDownload }}</td>
                     <td class="group-hover:bg-gray-200 transition-colors duration-150">
                         <p-rating [(ngModel)]="torrent.avgRateScore" [disabled]="true" />
                     </td>
