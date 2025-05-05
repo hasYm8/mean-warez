@@ -1,0 +1,8 @@
+::ng-deep .p-listbox:not(.p-disabled) .p-listbox-option:not(.p-listbox-option-selected):not(.p-disabled):hover {
+    background-color: transparent !important;
+}
+
+::ng-deep .p-listbox:not(.p-disabled) .p-listbox-option:not(.p-listbox-option-selected):not(.p-disabled).p-focus {
+    background-color: transparent !important;
+    cursor: default;
+}

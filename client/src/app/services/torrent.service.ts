@@ -5,6 +5,7 @@ import { Response } from '../dtos/Response';
 import { map, Observable } from 'rxjs';
 import { TorrentDto } from '../dtos/Torrent';
 import { CommentDto } from '../dtos/Comment';
+import { CategoryDto } from '../dtos/Category';
 
 @Injectable({
   providedIn: 'root'
@@ -79,4 +80,31 @@ export class TorrentService {
       );
   }
 
+  createCategory(name: string): Observable<CategoryDto> {
+    return this.http.post<Response<CategoryDto>>(`${this.apiUrl}/category`, { name: name })
+      .pipe(
+        map(res => res.data)
+      );
+  }
+
+  getAllCategories(): Observable<CategoryDto[]> {
+    return this.http.get<Response<CategoryDto[]>>(`${this.apiUrl}/category`)
+      .pipe(
+        map(res => res.data)
+      );
+  }
+
+  deleteCategory(categoryId: string): Observable<any> {
+    return this.http.delete<Response<any>>(`${this.apiUrl}/category/${categoryId}`)
+      .pipe(
+        map(res => res.data)
+      );
+  }
+
+  updateCategory(category: CategoryDto): Observable<CategoryDto> {
+    return this.http.patch<Response<CategoryDto>>(`${this.apiUrl}/category/${category.id}`, category)
+      .pipe(
+        map(res => res.data)
+      );
+  }
 }

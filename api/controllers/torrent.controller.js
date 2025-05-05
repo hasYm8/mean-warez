@@ -2,6 +2,7 @@ import Torrent from "../models/Torrent.js";
 import Rating from "../models/Rating.js";
 import Comment from "../models/Comment.js";
 import User from "../models/User.js";
+import Category from "../models/Category.js";
 import { CreateError } from '../utils/error.js';
 import { CreateSuccess } from '../utils/success.js';
 import { uploader } from "../config/multer.config.js";
@@ -11,6 +12,7 @@ import { bucket } from '../index.js';
 import mongoose from 'mongoose';
 import { TorrentDto } from "../dtos/Torrent.js";
 import { CommentDto } from "../dtos/Torrent.js";
+import { CategoryDto } from "../dtos/Torrent.js";
 
 export const getAll = async (req, resp, next) => {
     try {
@@ -217,8 +219,6 @@ export const saveComment = async (req, res, next) => {
         await comment.save();
         return next(CreateSuccess(200, "Comment saved successfully"), new CommentDto(comment, user));
     } catch (error) {
-        console.log(error);
-
         return next(CreateError(500, "Something went wrong"));
     }
 }
@@ -258,8 +258,6 @@ export const rate = async (req, res, next) => {
         await Rating.findOneAndUpdate(filter, update, options);
         return next(CreateSuccess(200, "Torrent rated successfully"));
     } catch (error) {
-        console.log(error);
-
         return next(CreateError(500, "Something went wrong"));
     }
 }
@@ -278,6 +276,60 @@ export const deleteRate = async (req, resp, next) => {
         }
 
         return next(CreateSuccess(200, "Rating deleted successfully"));
+    } catch (error) {
+        return next(CreateError(500, "Internal Server Error"));
+    }
+}
+
+export const createCategory = async (req, res, next) => {
+    try {
+        const category = new Category({
+            userId: req.session.userId,
+            name: req.body.name
+        });
+        await category.save();
+
+        return next(CreateSuccess(200, "Category saved successfully", new CategoryDto(category)));
+    } catch (error) {
+        return next(CreateError(500, "Something went wrong"));
+    }
+}
+
+export const getAllCategories = async (req, resp, next) => {
+    try {
+        const categories = await Category.find();
+        const categoryDtos = categories.map(category => new CategoryDto(category));
+        return next(CreateSuccess(200, "All categories received", categoryDtos));
+    } catch (error) {
+        return next(CreateError(500, "Internal Server Error"));
+    }
+}
+
+export const deleteCategory = async (req, resp, next) => {
+    try {
+        const deleteResult = await Category.deleteOne({ _id: req.params.id });
+
+        if (deleteResult.deletedCount === 0) {
+            return next(CreateError(404, "Category not found"));
+        }
+
+        return next(CreateSuccess(200, "Category deleted successfully"));
+    } catch (error) {
+        return next(CreateError(500, "Internal Server Error"));
+    }
+}
+
+export const updateCategory = async (req, resp, next) => {
+    try {
+        let updatedCategory = req.body;
+
+        updatedCategory = await Category.findByIdAndUpdate(
+            updatedCategory.id,
+            { $set: updatedCategory },
+            { new: true, runValidators: true }
+        );
+
+        return next(CreateSuccess(200, "Category successfully updated"));
     } catch (error) {
         return next(CreateError(500, "Internal Server Error"));
     }

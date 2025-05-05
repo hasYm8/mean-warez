@@ -35,17 +35,67 @@
                     </p-table>
                 </p-tabpanel>
                 <p-tabpanel value="1">
-                    <p class="m-0">
-                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                        laudantium, totam rem
-                        aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-                        explicabo.
-                        Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                        consequuntur magni
-                        dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non
-                        numquam eius
-                        modi.
-                    </p>
+                    <p-listbox [options]="categories" optionValue="id" emptyMessage="No categories available"
+                        emptyFilterMessage="No categories found" highlightOnSelect="false" [filter]="true"
+                        filterBy="name" styleClass="w-xs category-listbox"> <ng-template let-category pTemplate="item">
+                            <div class="flex flex-row justify-between w-full">
+                                <span class="content-center">{{ category.name }}</span>
+
+                                <div class="flex gap-2">
+                                    <p-button (onClick)="showUpdateDialog(category)" icon="pi pi-pen-to-square"
+                                        severity="secondary" />
+                                    <p-button (onClick)="onDeleteCategory(category.id)" icon="pi pi-trash"
+                                        severity="secondary" />
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-listbox>
+
+                    <p-dialog header="Update category" [modal]="true" [(visible)]="isUpdateDialogVisible"
+                        [style]="{ width: '25rem' }">
+                        <div class="flex flex-col gap-4">
+                            <p-inputgroup>
+                                <p-inputgroup-addon>
+                                    <i class="pi pi-folder"></i>
+                                </p-inputgroup-addon>
+                                <input pInputText maxlength="20" [(ngModel)]="categoryName" placeholder="Category" />
+                            </p-inputgroup>
+
+                            <div class="flex flex-row gap-4 self-end">
+                                <p-button (onClick)="closeDialog()" label="Cancel" icon="pi pi-times" iconPos="right"
+                                    severity="secondary" />
+                                <p-button (onClick)="onUpdateCategory()"
+                                    [disabled]="!categoryName || categoryName === ''" label="Update" icon="pi pi-check"
+                                    iconPos="right" severity="secondary" />
+                            </div>
+                        </div>
+                    </p-dialog>
+
+                    <div class="flex justify-end">
+                        <p-button (onClick)="showCreateDialog()" label="Create" icon="pi pi-check" iconPos="right"
+                            severity="secondary" />
+
+                        <p-dialog header="Create category" [modal]="true" [(visible)]="isCreateDialogVisible"
+                            [style]="{ width: '25rem' }">
+                            <div class="flex flex-col gap-4">
+                                <p-inputgroup>
+                                    <p-inputgroup-addon>
+                                        <i class="pi pi-folder"></i>
+                                    </p-inputgroup-addon>
+                                    <input pInputText maxlength="20" [(ngModel)]="categoryName"
+                                        placeholder="Category" />
+                                </p-inputgroup>
+
+                                <div class="flex flex-row gap-4 self-end">
+                                    <p-button (onClick)="closeDialog()" label="Cancel" icon="pi pi-times"
+                                        iconPos="right" severity="secondary" />
+                                    <p-button (onClick)="onCreateCategory()"
+                                        [disabled]="!categoryName || categoryName.trim() === ''" label="Create"
+                                        icon="pi pi-check" iconPos="right" severity="secondary" />
+                                </div>
+                            </div>
+                        </p-dialog>
+                    </div>
                 </p-tabpanel>
             </p-tabpanels>
         </p-tabs>

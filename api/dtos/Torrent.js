@@ -27,3 +27,11 @@ export class CommentDto {
         this.date = comment.createdAt;
     }
 }
+
+export class CategoryDto {
+    constructor(category) {
+        this.id = category._id;
+        this.userId = category.userId;
+        this.name = category.name;
+    }
+}
