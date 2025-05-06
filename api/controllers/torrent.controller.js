@@ -115,7 +115,7 @@ export const upload = async (req, res, next) => {
                         const torrent = new Torrent({
                             title: req.body.title,
                             description: req.body.description,
-                            categories: req.body.categories,
+                            categories: JSON.parse(req.body.categories).map(categoryDto => categoryDto.id),
                             fileName: uploadStream.gridFSFile.metadata.originalname,
                             gridfsId: uploadStream.id,
                             size: req.file.size,

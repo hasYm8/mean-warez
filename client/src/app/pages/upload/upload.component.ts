@@ -13,6 +13,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { FileUploadModule } from 'primeng/fileupload';
 import { TorrentService } from '../../services/torrent.service';
 import { Router } from '@angular/router';
+import { CategoryDto } from '../../dtos/Category';
 
 @Component({
   selector: 'app-upload',
@@ -22,14 +23,7 @@ import { Router } from '@angular/router';
 })
 export class UploadComponent implements OnInit {
   uploadForm!: FormGroup;
-
-  // TODO: use categories coming from backend
-  categories = [
-    { name: 'Software', code: 'SOFTWARE' },
-    { name: 'Game', code: 'GAME' },
-    { name: 'Movie', code: 'MOVIE' },
-    { name: 'Music', code: 'MUSIC' }
-  ];
+  categories: CategoryDto[] = [];
 
   constructor(
     private messageService: MessageService,
@@ -40,6 +34,7 @@ export class UploadComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+    this.loadCategories();
   }
 
   private initForm() {
@@ -50,6 +45,17 @@ export class UploadComponent implements OnInit {
       file: new FormControl<File | null>(null, Validators.required)
     });
     this.cdr.detectChanges();
+  }
+
+  private loadCategories() {
+    this.torrentService.getAllCategories().subscribe({
+      next: (data) => {
+        this.categories = data;
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
   }
 
   onSelect(event: any) {
