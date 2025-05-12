@@ -41,7 +41,13 @@ export class TorrentComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     this.torrentId = this.route.snapshot.params['id'];
+    this.currentUser = this.authService.currentUser;
 
+    this.loadTorrent();
+    this.loadComments();
+  }
+
+  private loadTorrent() {
     this.torrentService.getById(this.torrentId!).subscribe({
       next: (data) => {
         this.torrent = data;
@@ -53,9 +59,9 @@ export class TorrentComponent implements OnInit, AfterViewChecked {
         this.router.navigate(['/home']);
       }
     });
+  }
 
-    this.currentUser = this.authService.currentUser;
-
+  private loadComments() {
     this.torrentService.getAllComments(this.torrentId!).subscribe({
       next: (data) => {
         this.comments = data;
