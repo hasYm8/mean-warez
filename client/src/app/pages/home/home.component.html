@@ -8,6 +8,7 @@
                     <th>Title</th>
                     <th>Size</th>
                     <th>Upload date</th>
+                    <th>Categories</th>
                     <th>Download count</th>
                     <th>Rating</th>
                 </tr>
@@ -18,6 +19,11 @@
                     <td class="group-hover:bg-gray-200 transition-colors duration-150">{{ torrent.size }}</td>
                     <td class="group-hover:bg-gray-200 transition-colors duration-150">{{ torrent.createdAt |
                         date:'dd/MM/yyyy' }}</td>
+                    <td class="group-hover:bg-gray-200 transition-colors duration-150">
+                        <span *ngFor="let category of torrent.categories; let last = last">
+                            {{ category.name }}{{ !last ? ', ' : '' }}
+                        </span>
+                    </td>
                     <td class="group-hover:bg-gray-200 transition-colors duration-150">{{ torrent.totalDownload }}</td>
                     <td class="group-hover:bg-gray-200 transition-colors duration-150">
                         <p-rating [(ngModel)]="torrent.avgRateScore" [disabled]="true" />

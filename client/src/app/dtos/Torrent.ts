@@ -1,8 +1,10 @@
+import { CategoryDto } from "./Category";
+
 export interface TorrentDto {
     id: string;
     title: string;
     description: string;
-    categories: string[];
+    categories: CategoryDto[];
     fileName: string;
     gridfsId: string;
     size: number;

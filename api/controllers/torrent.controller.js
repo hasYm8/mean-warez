@@ -38,7 +38,17 @@ export const getAll = async (req, resp, next) => {
                 avgRateScore = totalScore / allRatings.length;
             }
 
-            return new TorrentDto(torrent, { score: userRateScore }, avgRateScore);
+            const categoryDtos = [];
+            if (torrent.categories && torrent.categories.length > 0) {
+                const categoryIds = torrent.categories;
+                const categories = await Category.find({ _id: { $in: categoryIds } });
+
+                for (const category of categories) {
+                    categoryDtos.push(new CategoryDto(category));
+                }
+            }
+
+            return new TorrentDto(torrent, { score: userRateScore }, avgRateScore, categoryDtos);
         }));
 
         return next(CreateSuccess(200, "All torrents received", torrentDtos));
@@ -73,7 +83,17 @@ export const getById = async (req, resp, next) => {
             avgRateScore = totalScore / allRatings.length;
         }
 
-        return next(CreateSuccess(200, "Single torrent received", new TorrentDto(torrent, { score: userRateScore }, avgRateScore)));
+        const categoryDtos = [];
+        if (torrent.categories && torrent.categories.length > 0) {
+            const categoryIds = torrent.categories;
+            const categories = await Category.find({ _id: { $in: categoryIds } });
+
+            for (const category of categories) {
+                categoryDtos.push(new CategoryDto(category));
+            }
+        }
+
+        return next(CreateSuccess(200, "Single torrent received", new TorrentDto(torrent, { score: userRateScore }, avgRateScore, categoryDtos)));
     } catch (error) {
         return next(CreateError(500, "Internal Server Error"));
     }
