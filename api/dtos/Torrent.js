@@ -18,6 +18,7 @@ export class TorrentDto {
 
 export class CommentDto {
     constructor(comment, user) {
+        this.id = comment._id;
         this.user = {
             id: user._id,
             username: user.username

@@ -237,7 +237,7 @@ export const saveComment = async (req, res, next) => {
         const user = await User.findById(req.session.userId);
 
         await comment.save();
-        return next(CreateSuccess(200, "Comment saved successfully"), new CommentDto(comment, user));
+        return next(CreateSuccess(200, "Comment saved successfully", new CommentDto(comment, user)));
     } catch (error) {
         return next(CreateError(500, "Something went wrong"));
     }
@@ -254,6 +254,34 @@ export const getAllComments = async (req, resp, next) => {
         const commentDtos = await Promise.all(commentPromises);
 
         return next(CreateSuccess(200, "All comments received", commentDtos));
+    } catch (error) {
+        return next(CreateError(500, "Internal Server Error"));
+    }
+}
+
+export const deleteComment = async (req, resp, next) => {
+    try {
+        const commentId = req.params.id;
+
+        const comment = await Comment.findById(commentId);
+        if (!comment) {
+            return next(CreateError(404, "Comment not found"));
+        }
+
+        const isAdmin = req.session.roles && req.session.roles.includes('ADMIN');
+        const isCommentOwner = req.session.userId === comment.userId.toString();
+
+        if (!isAdmin && !isCommentOwner) {
+            return next(CreateError(403, "Not authorized to delete this comment"));
+        }
+
+        const deleteResult = await Comment.findByIdAndDelete(commentId);
+
+        if (deleteResult.deletedCount === 0) {
+            return next(CreateError(404, "Comment not found"));
+        }
+
+        return next(CreateSuccess(200, "Comment deleted successfully"));
     } catch (error) {
         return next(CreateError(500, "Internal Server Error"));
     }

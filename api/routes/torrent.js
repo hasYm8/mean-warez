@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAll, getById, upload, download, saveComment, getAllComments, rate, deleteRate, createCategory, getAllCategories, deleteCategory, updateCategory } from '../controllers/torrent.controller.js';
+import { getAll, getById, upload, download, saveComment, getAllComments, rate, deleteRate, createCategory, getAllCategories, deleteCategory, updateCategory, deleteComment } from '../controllers/torrent.controller.js';
 import { verifyUser, verifyUploader, verifyAdmin } from '../utils/auth.js';
 
 const router = express.Router();
@@ -25,6 +25,8 @@ router.get('/download/:id', verifyUser, download);
 router.post('/comment', verifyUser, saveComment);
 
 router.get('/:id/comment', verifyUser, getAllComments);
+
+router.delete('/:id/comment', verifyUser, deleteComment);
 
 
 router.post('/:id/rate', verifyUser, rate);

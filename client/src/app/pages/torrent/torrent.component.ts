@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { UserDto } from '../../dtos/User';
 import { Rating } from 'primeng/rating';
+import { Role } from '../../dtos/User';
 
 @Component({
   selector: 'app-torrent',
@@ -21,6 +22,7 @@ import { Rating } from 'primeng/rating';
 })
 export class TorrentComponent implements OnInit, AfterViewChecked {
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
+  Role = Role;
 
   currentUser: UserDto | null = null;
   torrentId: string | null = null;
@@ -106,6 +108,7 @@ export class TorrentComponent implements OnInit, AfterViewChecked {
 
   onSubmit() {
     const comment = {
+      id: '',
       user: {
         id: this.currentUser!.id,
         username: this.currentUser!.username
@@ -119,7 +122,7 @@ export class TorrentComponent implements OnInit, AfterViewChecked {
       .subscribe({
         next: (res) => {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Comment submitted successfully' });
-          this.comments.push(comment);
+          this.comments.push(res);
         },
         error: (err) => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Comment submit failed' });
@@ -155,5 +158,18 @@ export class TorrentComponent implements OnInit, AfterViewChecked {
           }
         });
     }
+  }
+
+  onDeleteComment(commentId: string) {
+    this.torrentService.deleteComment(commentId)
+      .subscribe({
+        next: (res) => {
+          this.comments = this.comments.filter(comment => comment.id !== commentId);
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Comment deleted successfully' });
+        },
+        error: (err) => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Comment deletion failed' });
+        }
+      });
   }
 }
