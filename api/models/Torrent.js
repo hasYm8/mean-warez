@@ -13,8 +13,7 @@ const TorrentSchema = mongoose.Schema(
             maxlength: 300
         },
         categories: {
-            type: [mongoose.Schema.Types.ObjectId],
-            required: true
+            type: [mongoose.Schema.Types.ObjectId]
         },
         fileName: {
             type: String,
