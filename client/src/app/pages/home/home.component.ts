@@ -6,6 +6,9 @@ import { FormsModule } from '@angular/forms';
 import { Rating } from 'primeng/rating';
 import { TorrentService } from '../../services/torrent.service';
 import { Router, RouterModule } from '@angular/router';
+import { Role, UserDto } from '../../dtos/User';
+import { AuthService } from '../../services/auth.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-home',
@@ -14,16 +17,22 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
-  value: number = 3;
+  Role = Role;
 
+  currentUser: UserDto | null = null;
   torrents: TorrentDto[] = [];
 
   constructor(
     private torrentService: TorrentService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
+    this.currentUser = this.authService.currentUser;
+
     this.loadTorrents();
   }
 
@@ -40,5 +49,45 @@ export class HomeComponent implements OnInit {
 
   routeTorrent(id: string) {
     this.router.navigate(['/torrent', id]);
+  }
+
+  confirmDeleteTorrent(event: Event, torrentId: string) {
+    event.stopPropagation();
+
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure you want to delete the torrent?',
+      header: 'Danger Zone',
+      icon: 'pi pi-info-circle',
+      rejectLabel: 'Cancel',
+      rejectButtonProps: {
+        label: 'Cancel',
+        severity: 'secondary',
+        outlined: true,
+      },
+      acceptButtonProps: {
+        label: 'Delete',
+        severity: 'danger',
+      },
+
+      accept: () => {
+        this.deleteTorrent(torrentId);
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+      },
+    });
+  }
+
+  private deleteTorrent(torrentId: string) {
+    this.torrentService.delete(torrentId).subscribe({
+      next: (data) => {
+        this.torrents = this.torrents.filter(torrent => torrent.id !== torrentId);
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Torrent deleted successfully' });
+      },
+      error: (err) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete torrent' });
+      }
+    });
   }
 }

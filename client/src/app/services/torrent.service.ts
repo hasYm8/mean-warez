@@ -52,6 +52,13 @@ export class TorrentService {
     });
   }
 
+  delete(torrentId: string): Observable<any> {
+    return this.http.delete<Response<any>>(`${this.apiUrl}/${torrentId}`)
+      .pipe(
+        map(res => res.data)
+      );
+  }
+
   saveComment(comment: CommentDto): Observable<CommentDto> {
     return this.http.post<Response<CommentDto>>(`${this.apiUrl}/comment`, comment)
       .pipe(

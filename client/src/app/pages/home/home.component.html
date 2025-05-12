@@ -11,6 +11,9 @@
                     <th>Categories</th>
                     <th>Download count</th>
                     <th>Rating</th>
+                    @if (currentUser?.roles?.includes(Role.ADMIN)) {
+                    <th>Action</th>
+                    }
                 </tr>
             </ng-template>
             <ng-template #body let-torrent>
@@ -28,6 +31,12 @@
                     <td class="group-hover:bg-gray-200 transition-colors duration-150">
                         <p-rating [(ngModel)]="torrent.avgRateScore" [disabled]="true" />
                     </td>
+                    @if (currentUser?.roles?.includes(Role.ADMIN)) {
+                    <td class="group-hover:bg-gray-200 transition-colors duration-150" style="text-align: center;">
+                        <span (click)="confirmDeleteTorrent($event, torrent.id)" class="pi pi-trash
+                        cursor-pointer"></span>
+                    </td>
+                    }
                 </tr>
             </ng-template>
         </p-table>

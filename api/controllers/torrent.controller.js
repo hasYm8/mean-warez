@@ -227,6 +227,39 @@ export const download = async (req, res, next) => {
     }
 };
 
+export const deleteTorrent = async (req, resp, next) => {
+    try {
+        const torrent = await Torrent.findById(req.params.id);
+
+        if (!torrent) {
+            return next(CreateError(404, "Torrent not found"));
+        }
+
+        const deleteResult = await Torrent.deleteOne({ _id: req.params.id });
+
+        if (deleteResult.deletedCount === 0) {
+            return next(CreateError(404, "Torrent not found"));
+        }
+
+        await Comment.deleteMany({ torrentId: req.params.id });
+
+        await Rating.deleteMany({ torrentId: req.params.id });
+
+        const gridfsId = torrent.gridfsId;
+        if (gridfsId && bucket) {
+            try {
+                await bucket.delete(new mongoose.Types.ObjectId(gridfsId));
+            } catch (gridfsError) {
+                console.error("Error deleting file from GridFS:", gridfsError);
+            }
+        }
+
+        return next(CreateSuccess(200, "Torrent and associated data deleted successfully"));
+    } catch (error) {
+        return next(CreateError(500, "Internal Server Error"));
+    }
+}
+
 export const saveComment = async (req, res, next) => {
     try {
         const comment = new Comment({

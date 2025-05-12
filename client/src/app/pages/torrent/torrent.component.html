@@ -37,7 +37,7 @@
                     <div>
                         @if (comment.user.id === currentUser?.id || currentUser?.roles?.includes(Role.ADMIN)) {
                         <span (click)="onDeleteComment(comment.id)"
-                            class="pi pi-times-circle self-center cursor-pointer" style="color: red"></span>
+                            class="pi pi-trash self-center cursor-pointer"></span>
                         }
                     </div>
                 </div>
