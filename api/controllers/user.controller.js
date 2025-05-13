@@ -51,18 +51,29 @@ export const deleteById = async (req, resp, next) => {
 
 export const update = async (req, resp, next) => {
     try {
-        let updatedUser = new UserDto(req.body);
+        const allowedUpdates = {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            username: req.body.username,
+            email: req.body.email
+        };
 
-        updatedUser = await User.findByIdAndUpdate(
+        const filteredUpdates = Object.fromEntries(
+            Object.entries(allowedUpdates).filter(([_, v]) => v !== undefined)
+        );
+
+        const updatedUser = await User.findByIdAndUpdate(
             req.session.userId,
-            { $set: updatedUser },
+            { $set: filteredUpdates },
             { new: true, runValidators: true }
         );
 
+        if (!updatedUser) {
+            return next(CreateError(404, "User not found"));
+        }
+
         return next(CreateSuccess(200, "Profile successfully updated"));
     } catch (error) {
-        console.log(error);
-
         return next(CreateError(500, "Internal Server Error"));
     }
 }
