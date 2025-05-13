@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { UserService } from '../../services/user.service';
-import { UserDto } from '../../dtos/User';
+import { Role, UserDto } from '../../dtos/User';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TabsModule } from 'primeng/tabs';
 import { ListboxModule } from 'primeng/listbox';
@@ -14,26 +14,30 @@ import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { CategoryDto } from '../../dtos/Category';
 import { TorrentService } from '../../services/torrent.service';
-
-interface Column {
-  field: string;
-  header: string;
-}
+import { CheckboxModule } from 'primeng/checkbox';
 
 @Component({
   selector: 'app-admin',
-  imports: [FormsModule, CommonModule, TableModule, TabsModule, ListboxModule, ButtonModule, DialogModule, InputGroupModule, InputGroupAddonModule, InputTextModule],
+  imports: [FormsModule, CheckboxModule, CommonModule, TableModule, TabsModule, ListboxModule, ButtonModule, DialogModule, InputGroupModule, InputGroupAddonModule, InputTextModule],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
 })
 export class AdminComponent implements OnInit {
+  Role = Role;
+
   users: UserDto[] = [];
   categories: CategoryDto[] = [];
+  roles: Role[] = Object.values(Role);
+
+  selectedRoles: Role[] = [];
+  updatedUserId: string = '';
 
   categoryName: string = '';
   updatedCategoryId: string = '';
+
   isCreateDialogVisible: boolean = false;
   isUpdateDialogVisible: boolean = false;
+  isUpdateUserRolesDialogVisible: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -117,11 +121,21 @@ export class AdminComponent implements OnInit {
     this.isUpdateDialogVisible = true;
   }
 
+  showUpdateUserRolesDialog(userId: string) {
+    this.updatedUserId = userId;
+    this.selectedRoles = this.users.find(user => user.id === userId)!.roles;
+    this.isUpdateUserRolesDialogVisible = true;
+  }
+
   closeDialog() {
     this.isCreateDialogVisible = false;
     this.categoryName = '';
 
     this.isUpdateDialogVisible = false;
+
+    this.isUpdateUserRolesDialogVisible = false;
+    this.selectedRoles = [];
+    this.updatedUserId = '';
   }
 
   onCreateCategory() {
@@ -174,5 +188,24 @@ export class AdminComponent implements OnInit {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Category deletion failed' });
         }
       });
+  }
+
+  onUpdateUserRoles() {
+    this.userService.updateRoles(this.updatedUserId, this.selectedRoles).subscribe({
+      next: (data) => {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'User roles updated successfully' });
+
+        const index = this.users.findIndex(user => user.id === data.id);
+        if (index !== -1) {
+          this.users[index] = data;
+        }
+
+        this.closeDialog();
+      },
+      error: (err) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to update user roles' });
+        this.closeDialog();
+      }
+    });
   }
 }

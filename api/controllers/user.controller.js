@@ -77,3 +77,40 @@ export const update = async (req, resp, next) => {
         return next(CreateError(500, "Internal Server Error"));
     }
 }
+
+export const updateRoles = async (req, resp, next) => {
+    try {
+        const { userId, roles } = req.body;
+
+        if (!userId) {
+            return next(CreateError(400, "UserId is required"));
+        }
+
+        if (!roles || !Array.isArray(roles) || roles.length === 0) {
+            return next(CreateError(400, "Roles are required"));
+        }
+
+        const targetUser = await User.findById(userId);
+        if (!targetUser) {
+            return next(CreateError(404, "User not found!"));
+        }
+
+        if (!roles.includes(Roles.USER)) {
+            return next(CreateError(400, "Cannot remove USER role"));
+        }
+
+        if (targetUser.roles.includes(Roles.ADMIN)) {
+            return next(CreateError(400, "Cannot modify admin user's roles"));
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { $set: { roles } },
+            { new: true, runValidators: true }
+        );
+
+        return next(CreateSuccess(200, "Roles successfully updated", new UserDto(updatedUser)));
+    } catch (error) {
+        return next(CreateError(500, "Internal Server Error"));
+    }
+}

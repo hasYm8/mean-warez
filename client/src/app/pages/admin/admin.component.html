@@ -26,13 +26,35 @@
                                 <td>{{user.email }}</td>
                                 <td>{{ user.roles.join(', ') | titlecase }}</td>
                                 <td>
-                                    @if(!user['roles'].includes('ADMIN')) {
-                                    <span (click)="confirmDeleteUser($event, user.id)"
-                                        class=" pi pi-user-minus cursor-pointer" style="font-size: 1.2rem"></span>}
+                                    <div class="flex gap-4">
+                                        @if(!user['roles'].includes('ADMIN')) {
+                                        <span (click)="showUpdateUserRolesDialog(user.id)"
+                                            class=" pi pi-users cursor-pointer" style="font-size: 1.2rem"></span>
+                                        <span (click)="confirmDeleteUser($event, user.id)"
+                                            class=" pi pi-user-minus cursor-pointer" style="font-size: 1.2rem"></span>}
+                                    </div>
                                 </td>
                             </tr>
                         </ng-template>
                     </p-table>
+
+                    <p-dialog header="Update user roles" [modal]="true" [(visible)]="isUpdateUserRolesDialogVisible"
+                        [style]="{ width: '25rem' }">
+                        <div class="flex flex-col gap-4">
+                            <div *ngFor="let role of roles" class="flex items-center">
+                                <p-checkbox [disabled]="role === Role.USER" [inputId]="role" name="group" [value]="role"
+                                    [(ngModel)]="selectedRoles" />
+                                <label [for]="role" class="ml-2"> {{ role | titlecase }} </label>
+                            </div>
+
+                            <div class="flex flex-row gap-4 self-end">
+                                <p-button (onClick)="closeDialog()" label="Cancel" icon="pi pi-times" iconPos="right"
+                                    severity="secondary" />
+                                <p-button (onClick)="onUpdateUserRoles()" label="Update" icon="pi pi-check"
+                                    iconPos="right" severity="secondary" />
+                            </div>
+                        </div>
+                    </p-dialog>
                 </p-tabpanel>
                 <p-tabpanel value="1">
                     <p-listbox [options]="categories" optionValue="id" emptyMessage="No categories available"

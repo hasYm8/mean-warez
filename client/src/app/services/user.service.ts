@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { catchError, map, Observable, throwError } from 'rxjs';
-import { UserDto } from '../dtos/User';
+import { Role, UserDto } from '../dtos/User';
 import { Response } from '../dtos/Response';
 
 @Injectable({
@@ -31,6 +31,13 @@ export class UserService {
 
   update(user: UserDto): Observable<UserDto> {
     return this.http.patch<Response<UserDto>>(`${this.apiUrl}`, user)
+      .pipe(
+        map(res => res.data)
+      );
+  }
+
+  updateRoles(userId: string, roles: Role[]): Observable<UserDto> {
+    return this.http.patch<Response<UserDto>>(`${this.apiUrl}/role`, { userId: userId, roles: roles })
       .pipe(
         map(res => res.data)
       );
