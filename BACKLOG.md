@@ -1,5 +1,5 @@
 # Application Backlog
-> **Version:** 1.0.5
+> **Version:** 1.0.6
 
 This document outlines the features, improvements, and bug fixes planned for the Warez MEAN stack application. Items are generally prioritized, but this is a living document and priorities may shift.
 
@@ -36,6 +36,7 @@ This document outlines the features, improvements, and bug fixes planned for the
 * [X] **[Feature]** Refact forms on registration and login page
 * [X] **[Feature]** MongoDB should have minimum 4 collections
 * [ ] **[Feature]** MongoDB should have test data in it on startup
+* [ ] **[Feature]** Remove deleted category ids from torrents too
 
 ### Low Priority
 
