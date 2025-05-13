@@ -5,10 +5,14 @@ import { confirmPasswordValidator } from '../../../app/validators/confirm-passwo
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, InputGroupModule, InputTextModule, InputGroupAddonModule, ButtonModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
@@ -27,7 +31,7 @@ export class RegisterComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', Validators.compose([Validators.required, Validators.email])],
-      userName: ['', Validators.required],
+      username: ['', Validators.required],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required]
     },
