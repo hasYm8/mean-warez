@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { TorrentDto } from '../../dtos/Torrent';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -11,6 +11,8 @@ import { AuthService } from '../../services/auth.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { CategoryDto } from '../../dtos/Category';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -18,13 +20,16 @@ import { MultiSelectModule } from 'primeng/multiselect';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   Role = Role;
 
   currentUser: UserDto | null = null;
   torrents: TorrentDto[] = [];
   categories: CategoryDto[] = [];
   selectedCategories: CategoryDto[] = [];
+
+  private categoryChangeSubject = new Subject<void>();
+  private categoryChangeSubscription?: Subscription;
 
   constructor(
     private torrentService: TorrentService,
@@ -37,11 +42,27 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.currentUser = this.authService.currentUser;
 
+    this.categoryChangeSubscription = this.categoryChangeSubject
+      .pipe(debounceTime(500))
+      .subscribe(() => {
+        this.loadTorrents();
+      });
+
     this.loadTorrents();
     this.loadCategories();
   }
 
-  loadTorrents() {
+  ngOnDestroy(): void {
+    if (this.categoryChangeSubscription) {
+      this.categoryChangeSubscription.unsubscribe();
+    }
+  }
+
+  onCategoryChange(): void {
+    this.categoryChangeSubject.next();
+  }
+
+  private loadTorrents() {
     this.torrentService.getAll(this.selectedCategories).subscribe({
       next: (data) => {
         this.torrents = data;
