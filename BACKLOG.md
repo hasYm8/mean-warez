@@ -26,14 +26,14 @@ This document outlines the features, improvements, and bug fixes planned for the
 * [X] **[Feature]** Design and implement content upload page
 * [X] **[Feature]** Design and implement content list page
 * [X] **[Feature]** Design and implement content view / download page
-* [ ] **[Feature]** Implement every role functionality
+* [X] **[Feature]** Implement every role functionality
 * [ ] **[Feature]** Implement categories
-* [ ] **[Feature]** Implement admin features
+* [X] **[Feature]** Implement admin features
 
 ### Medium Priority
 
 * [ ] **[Feature]** Make password updateable on profile page
-* [ ] **[Feature]** Refact forms on registration and login page
+* [X] **[Feature]** Refact forms on registration and login page
 * [X] **[Feature]** MongoDB should have minimum 4 collections
 * [ ] **[Feature]** MongoDB should have test data in it on startup
 
