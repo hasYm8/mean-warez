@@ -17,8 +17,8 @@ export class TorrentService {
     private http: HttpClient
   ) { }
 
-  getAll(): Observable<TorrentDto[]> {
-    return this.http.get<Response<TorrentDto[]>>(`${this.apiUrl}`)
+  getAll(filteredCategories: CategoryDto[]): Observable<TorrentDto[]> {
+    return this.http.post<Response<TorrentDto[]>>(`${this.apiUrl}`, filteredCategories)
       .pipe(
         map(res => res.data)
       );

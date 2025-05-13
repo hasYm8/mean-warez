@@ -16,7 +16,22 @@ import { CategoryDto } from "../dtos/Torrent.js";
 
 export const getAll = async (req, resp, next) => {
     try {
-        const torrents = await Torrent.find();
+        const filteredCategories = req.body && Array.isArray(req.body) ? req.body : [];
+        const filteredCategoryIds = filteredCategories.map(category => category.id);
+
+        let torrentsQuery = {};
+
+        if (filteredCategoryIds.length > 0) {
+            torrentsQuery = {
+                categories: {
+                    $elemMatch: {
+                        $in: filteredCategoryIds
+                    }
+                }
+            };
+        }
+
+        const torrents = await Torrent.find(torrentsQuery);
 
         const torrentDtos = await Promise.all(torrents.map(async (torrent) => {
             let userRateScore = null;

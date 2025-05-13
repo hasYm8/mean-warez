@@ -8,7 +8,11 @@
                     <th>Title</th>
                     <th>Size</th>
                     <th>Upload date</th>
-                    <th>Categories</th>
+                    <th>
+                        <p-multiselect [options]="categories" [(ngModel)]="selectedCategories"
+                            (onChange)="loadTorrents()" placeholder="Categories" optionLabel="name" display="chip"
+                            appendTo="body" styleClass="md:w-60" />
+                    </th>
                     <th>Download count</th>
                     <th>Rating</th>
                     @if (currentUser?.roles?.includes(Role.ADMIN)) {

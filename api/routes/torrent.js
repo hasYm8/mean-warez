@@ -13,7 +13,7 @@ router.delete('/category/:id', verifyAdmin, deleteCategory);
 router.patch('/category/:id', verifyAdmin, updateCategory);
 
 
-router.get('/', verifyUser, getAll);
+router.post('/', verifyUser, getAll);
 
 router.get('/:id', verifyUser, getById);
 

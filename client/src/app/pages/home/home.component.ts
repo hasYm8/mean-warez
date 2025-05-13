@@ -2,17 +2,19 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { TorrentDto } from '../../dtos/Torrent';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Rating } from 'primeng/rating';
 import { TorrentService } from '../../services/torrent.service';
 import { Router, RouterModule } from '@angular/router';
 import { Role, UserDto } from '../../dtos/User';
 import { AuthService } from '../../services/auth.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { CategoryDto } from '../../dtos/Category';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, TableModule, FormsModule, Rating, RouterModule],
+  imports: [CommonModule, TableModule, FormsModule, Rating, RouterModule, MultiSelectModule, ReactiveFormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -21,6 +23,8 @@ export class HomeComponent implements OnInit {
 
   currentUser: UserDto | null = null;
   torrents: TorrentDto[] = [];
+  categories: CategoryDto[] = [];
+  selectedCategories: CategoryDto[] = [];
 
   constructor(
     private torrentService: TorrentService,
@@ -34,12 +38,24 @@ export class HomeComponent implements OnInit {
     this.currentUser = this.authService.currentUser;
 
     this.loadTorrents();
+    this.loadCategories();
   }
 
-  private loadTorrents() {
-    this.torrentService.getAll().subscribe({
+  loadTorrents() {
+    this.torrentService.getAll(this.selectedCategories).subscribe({
       next: (data) => {
         this.torrents = data;
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+  }
+
+  private loadCategories() {
+    this.torrentService.getAllCategories().subscribe({
+      next: (data) => {
+        this.categories = data;
       },
       error: (err) => {
         console.error(err);
