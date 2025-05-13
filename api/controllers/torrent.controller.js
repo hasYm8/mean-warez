@@ -235,6 +235,13 @@ export const deleteTorrent = async (req, resp, next) => {
             return next(CreateError(404, "Torrent not found"));
         }
 
+        const isAdmin = req.session.roles && req.session.roles.includes('ADMIN');
+        const isTorrentOwner = req.session.userId === torrent.uploaderId.toString();
+
+        if (!isAdmin && !isTorrentOwner) {
+            return next(CreateError(403, "Not authorized to delete this torrent"));
+        }
+
         const deleteResult = await Torrent.deleteOne({ _id: req.params.id });
 
         if (deleteResult.deletedCount === 0) {

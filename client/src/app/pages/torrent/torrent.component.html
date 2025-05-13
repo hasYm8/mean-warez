@@ -15,8 +15,17 @@
             </ng-template>
         </p-card>
 
-        <div class="flex flex-none justify-center w-full">
-            <p-rating (onRate)="onRate()" (onCancel)="onCancelRate()" [(ngModel)]="rateScore" />
+        <div class="flex flex-none justify-between w-full">
+            <div></div>
+            <div>
+                <p-rating (onRate)="onRate()" (onCancel)="onCancelRate()" [(ngModel)]="rateScore" />
+            </div>
+            <div>
+                @if (torrent?.uploaderId === currentUser?.id || currentUser?.roles?.includes(Role.ADMIN)) {
+                <span (click)="confirmDeleteTorrent($event, torrentId!)" class="pi pi-trash
+                            cursor-pointer"></span>
+                }
+            </div>
         </div>
     </div>
 

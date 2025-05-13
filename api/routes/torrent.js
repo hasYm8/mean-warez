@@ -21,7 +21,7 @@ router.post('/upload', verifyUploader, upload);
 
 router.get('/download/:id', verifyUser, download);
 
-router.delete('/:id', verifyAdmin, deleteTorrent);
+router.delete('/:id', verifyUploader, deleteTorrent);
 
 
 router.post('/comment', verifyUser, saveComment);

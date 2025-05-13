@@ -4,7 +4,7 @@ import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { TorrentDto } from '../../dtos/Torrent';
 import { TorrentService } from '../../services/torrent.service';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { FormsModule } from '@angular/forms';
 import { TextareaModule } from 'primeng/textarea';
 import { CommentDto } from '../../dtos/Comment';
@@ -36,7 +36,8 @@ export class TorrentComponent implements OnInit, AfterViewChecked {
     private router: Router,
     private torrentService: TorrentService,
     private messageService: MessageService,
-    private authService: AuthService
+    private authService: AuthService,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -177,5 +178,43 @@ export class TorrentComponent implements OnInit, AfterViewChecked {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Comment deletion failed' });
         }
       });
+  }
+
+  confirmDeleteTorrent(event: Event, torrentId: string) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure you want to delete the torrent?',
+      header: 'Danger Zone',
+      icon: 'pi pi-info-circle',
+      rejectLabel: 'Cancel',
+      rejectButtonProps: {
+        label: 'Cancel',
+        severity: 'secondary',
+        outlined: true,
+      },
+      acceptButtonProps: {
+        label: 'Delete',
+        severity: 'danger',
+      },
+
+      accept: () => {
+        this.deleteTorrent(torrentId);
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+      },
+    });
+  }
+
+  private deleteTorrent(torrentId: string) {
+    this.torrentService.delete(torrentId).subscribe({
+      next: (data) => {
+        this.router.navigate(['/home']);
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Torrent deleted successfully' });
+      },
+      error: (err) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete torrent' });
+      }
+    });
   }
 }
